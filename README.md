@@ -1,6 +1,6 @@
 # ChatGPT Q&A System
 
-Welcome to the ChatGPT Q&A system! This is a simple command-line application that allows you to interact with OpenAI's GPT models for generating responses to your questions.
+Welcome to the your own ChatGPT Q&A system! This is a simple command-line application that allows you to interact with OpenAI's GPT models for generating responses to your questions.
 
 ## Features
 
@@ -11,23 +11,21 @@ Welcome to the ChatGPT Q&A system! This is a simple command-line application tha
 ## Requirements
 
 - Python 3.x
+- python-dotenv openai
+- openai==0.28.0 (Compatibility issues with higher versions that are installed directly)
 - OpenAI API Key
 
 ## Installation
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/chatgpt-qa-system.git 
-
-2. Install the dependencies:
+1. Clone the repository
+2. Install Python 3.x and the following dependencies:
     ```bash
-    cd chatgpt-qa-system
-    pip install -r requirements.txt
+    pip install python-dotenv openai
+    pip install openai==0.28.0
 3. Set up your OpenAI API key in the `.env` file in the project root directory
 ## Usage
 
-1. Run the application:
+1. Run the application or via the following command:
 
    ```bash
    python chatgpt_cli.py
@@ -36,7 +34,7 @@ Welcome to the ChatGPT Q&A system! This is a simple command-line application tha
 
 3. Start asking questions and interacting with the ChatGPT assistant.
 
-4. Open and previre the markdown file to better view the current conversation.
+4. Open and preview the markdown file to better view the current conversation.
 
 ## File Structure
 
