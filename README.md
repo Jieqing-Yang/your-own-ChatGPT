@@ -1,6 +1,6 @@
 # Your own ChatGPT Q&A System
 
-Welcome to the your own ChatGPT Q&A system! This is a simple command-line application that allows you to interact with OpenAI's GPT models for generating responses to your questions.
+Welcome to your own ChatGPT Q&A system! This is a simple command-line application that allows you to interact with OpenAI's GPT models to generate responses to your questions.
 
 ## Features
 
@@ -10,7 +10,8 @@ Welcome to the your own ChatGPT Q&A system! This is a simple command-line applic
 
 ## Requirements
 
-- Python 3.x
+- VPN (if in mainland)
+- Python 3.x (testing with 3.9)
 - python-dotenv openai
 - openai==0.28.0 (Compatibility issues with higher versions that are installed directly)
 - OpenAI API Key
