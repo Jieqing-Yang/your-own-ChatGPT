@@ -37,7 +37,7 @@ Welcome to your own ChatGPT Q&A system! This is a simple command-line applicatio
 
 4. Open and preview the markdown file to better view the current conversation.
 
-5. Input `exit` or `Crtl + c` to exit the application.
+5. Input `exit` or press `Ctrl + c` to exit the application.
 
 ## File Structure
 
