@@ -1,2 +1,5 @@
 /sessions
 .env
+/local-ChatGPT
+/chatgpt_web/sessions
+/chatgpt_web/uploads

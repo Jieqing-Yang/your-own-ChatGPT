@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with ChatGPT</title>
+</head>
+<body>
+    <h1>Chat Session: {{ session_name }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.prompt.label }}<br>
+            {{ form.prompt(size=40, rows=5) }}
+        </p>
+        <p>
+            {{ form.file.label }}<br>
+            {{ form.file() }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <h2>Conversation History</h2>
+    <ul>
+        {% for message in history %}
+        <li><strong>{{ message.role }}:</strong> {{ message.content }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Back to session selection</a>
+</body>
+</html>

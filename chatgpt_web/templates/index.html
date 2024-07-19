@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatGPT Session Selection</title>
+</head>
+<body>
+    <h1>Select a Chat Session</h1>
+    <form action="{{ url_for('create_session') }}" method="post">
+        <input type="text" name="session_name" placeholder="Enter new session name">
+        <button type="submit">Create Session</button>
+    </form>
+    <h2>Existing Sessions</h2>
+    <ul>
+        {% for session in sessions %}
+        <li><a href="{{ url_for('chat', session_name=session) }}">{{ session }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
