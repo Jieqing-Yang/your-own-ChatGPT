@@ -25,14 +25,14 @@ class ChatForm(FlaskForm):
     file = FileField('Upload File (optional)')
     submit = SubmitField('Submit')
 
-def get_response(prompt, history):
+def get_response(prompt, history, model):
     messages = [{"role": "system", "content": "You are a helpful assistant."}]
     if history:
         messages += history
     messages.append({"role": "user", "content": prompt})
 
     response = openai.ChatCompletion.create(
-        model="gpt-4o-mini-2024-07-18",  # You can choose models like "gpt-4o-mini" "gpt-3.5-turbo" or "text-davinci-003"
+        model=model,  # Use the selected model
         messages=messages,
         max_tokens=150,
         temperature=0.7,
@@ -68,29 +68,32 @@ def index():
 def chat(session_name):
     form = ChatForm()
     history = load_conversation(session_name)
-    
+    model = request.args.get('model', 'gpt-4o-mini-2024-07-18')
+    context = request.args.get('context', 'enabled')
+    sessions = [f[:-3] for f in os.listdir(app.config['SESSION_FOLDER']) if f.endswith('.md')]
+
+    if context == 'disabled':
+        history = []  # Clear history if context is disabled
+
     if form.validate_on_submit():
         prompt = form.prompt.data
         file = form.file.data
 
-        # Process uploaded file if it exists
         if file:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(file_path)
         
-        # Get response from GPT
-        response = get_response(prompt, history)
+        response = get_response(prompt, history, model)
         
-        # Save prompt and response in history
         history.append({"role": "user", "content": prompt})
         history.append({"role": "assistant", "content": response})
 
-        # Save conversation to file
-        save_conversation(session_name, f"You: {prompt}\nChatGPT: {response}\n\n")
+        if context == 'enabled':
+            save_conversation(session_name, f"You: {prompt}\nChatGPT: {response}\n\n")
 
-        return redirect(url_for('chat', session_name=session_name))
+        return redirect(url_for('chat', session_name=session_name, model=model, context=context))
 
-    return render_template('chat.html', form=form, history=history, session_name=session_name)
+    return render_template('chat.html', form=form, history=history, session_name=session_name, sessions=sessions, model=model, context=context)
 
 @app.route('/create_session', methods=['POST'])
 def create_session():

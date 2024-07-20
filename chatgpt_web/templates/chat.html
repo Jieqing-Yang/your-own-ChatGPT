@@ -3,27 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat with ChatGPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
-    <h1>Chat Session: {{ session_name }}</h1>
-    <form method="post" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.prompt.label }}<br>
-            {{ form.prompt(size=40, rows=5) }}
-        </p>
-        <p>
-            {{ form.file.label }}<br>
-            {{ form.file() }}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    <h2>Conversation History</h2>
-    <ul>
-        {% for message in history %}
-        <li><strong>{{ message.role }}:</strong> {{ message.content }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('index') }}">Back to session selection</a>
+    <!-- Header section with the title -->
+    <header>
+        <h1>ChatGPT</h1>
+    </header>
+    <!-- Main container split into sidebar and main chat area -->
+    <div class="container">
+        <!-- Sidebar for session management -->
+        <div class="sidebar">
+            <!-- Form to create a new session -->
+            <form action="{{ url_for('create_session') }}" method="post">
+                <input type="text" name="session_name" placeholder="Enter new session name">
+                <button type="submit">Create Session</button>
+            </form>
+            <!-- Model selection -->
+            <label for="model">Model:</label>
+            <select id="model" name="model" onchange="changeModel('{{ url_for('chat', session_name=session_name) }}')">
+                <option value="gpt-4o-mini-2024-07-18" {% if model == 'gpt-4o-mini-2024-07-18' %}selected{% endif %}>GPT-4o-mini</option>
+                <option value="gpt-3.5-turbo" {% if model == 'gpt-3.5-turbo' %}selected{% endif %}>GPT-3.5-turbo</option>
+                <option value="text-davinci-003" {% if model == 'text-davinci-003' %}selected{% endif %}>Text-Davinci-003</option>
+            </select>
+            <!-- Context switch -->
+            <label for="context">Context:</label>
+            <select id="context" name="context" onchange="changeContext('{{ url_for('chat', session_name=session_name) }}')">
+                <option value="enabled" {% if context == 'enabled' %}selected{% endif %}>Enabled</option>
+                <option value="disabled" {% if context == 'disabled' %}selected{% endif %}>Disabled</option>
+            </select>
+            <!-- List of existing sessions -->
+            <h2>Existing Sessions</h2>
+            <ul>
+                {% for session in sessions %}
+                <li><a href="{{ url_for('chat', session_name=session) }}" style="color:white;">{{ session }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Main chat area -->
+        <div class="main">
+            <!-- Header of the main chat area with session name -->
+            <div class="main-header">
+                <h1>Current Session: {{ session_name }}</h1>
+            </div>
+            <!-- Container for chat messages -->
+            <div class="messages">
+                <ul class="message-list">
+                    {% for message in history %}
+                    <li class="message {{ message.role }}">
+                        <strong>{{ message.role }}:</strong> {{ message.content }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- Footer with input form for new messages -->
+            <div class="footer">
+                <form method="post" enctype="multipart/form-data" onsubmit="submitForm(event)">
+                    {{ form.hidden_tag() }}
+                    <input type="file" name="file" />
+                    <textarea name="prompt" rows="3" placeholder="Type your message here..." onkeydown="submitOnEnter(event)">{{ form.prompt.data }}</textarea>
+                    <button type="submit">{{ form.submit.label }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to handle model change and reload the page with the selected model
+        function changeModel(chatUrl) {
+            const model = document.getElementById('model').value;
+            const url = new URL(chatUrl);
+            url.searchParams.set('model', model);
+            window.location.href = url;
+        }
+
+        // Function to handle context change and reload the page with the selected context
+        function changeContext(chatUrl) {
+            const context = document.getElementById('context').value;
+            const url = new URL(chatUrl);
+            url.searchParams.set('context', context);
+            window.location.href = url;
+        }
+
+        // Function to submit the form on Enter key press
+        function submitOnEnter(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                event.target.form.submit();
+            }
+        }
+
+        // Function to submit the form via the submit button
+        function submitForm(event) {
+            event.preventDefault();
+            event.target.submit();
+        }
+    </script>
 </body>
 </html>

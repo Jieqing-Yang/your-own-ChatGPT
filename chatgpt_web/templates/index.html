@@ -3,18 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>ChatGPT Session Selection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Select a Chat Session</h1>
-    <form action="{{ url_for('create_session') }}" method="post">
-        <input type="text" name="session_name" placeholder="Enter new session name">
-        <button type="submit">Create Session</button>
-    </form>
-    <h2>Existing Sessions</h2>
-    <ul>
-        {% for session in sessions %}
-        <li><a href="{{ url_for('chat', session_name=session) }}">{{ session }}</a></li>
-        {% endfor %}
-    </ul>
+    <header>
+        <h1>ChatGPT</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <form action="{{ url_for('create_session') }}" method="post">
+                <input type="text" name="session_name" placeholder="Enter new session name">
+                <button type="submit">Create Session</button>
+            </form>
+            <h2>Existing Sessions</h2>
+            <ul>
+                {% for session in sessions %}
+                <li><a href="{{ url_for('chat', session_name=session) }}" style="color:white;">{{ session }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="main">
+            <p>Select a session or create a new one to start chatting.</p>
+        </div>
+    </div>
 </body>
 </html>
