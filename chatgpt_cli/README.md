@@ -21,7 +21,6 @@ This is a simple command-line application that allows you to interact with OpenA
     ```bash
     pip install python-dotenv openai
     pip install openai==0.28.0
-
 Alternatively, you can create a virtual environment and run `pip install -r requirements.txt` in the virtual environment.
 
 3. Set up your OpenAI API key in the `.env` file in the project root directory

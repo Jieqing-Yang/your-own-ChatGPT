@@ -11,7 +11,7 @@ Welcome to your own ChatGPT Q&A system! This is a application that allows you to
 ## Configuration
 
 1. Clone the repository
-2. Create a virtual environment and run `pip install -r requirements.txt` in the virtual environment in their respective project folders.
+2. Run `pip install -r requirements.txt` in `chatgpt_web` root directory. Alternatively, create a virtual environment and run `pip install -r requirements.txt` in the virtual environment in their respective project folders.
 3. Set up your OpenAI API key in the `.env` file in the project root directory
 
 ## File Structure
