@@ -1,6 +1,4 @@
-# Your own ChatGPT Q&A System
-
-Welcome to your own ChatGPT Q&A system! This is a simple command-line application that allows you to interact with OpenAI's GPT models to generate responses to your questions.
+This is a simple command-line application that allows you to interact with OpenAI's GPT models to generate responses to your questions.
 
 ## Features
 
